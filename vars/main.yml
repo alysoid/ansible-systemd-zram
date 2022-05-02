@@ -1,0 +1,11 @@
+---
+# Define default zram options
+systemd_zram_default_options:
+  # The size of the zram device in MiB
+  zram_size: "{{ [ansible_memory_mb.real.total / 16, 1024] | min }}"
+  # The compression algorithm to use for the zram device
+  # Leave unspecified to keep the kernel default
+  compression_algorithm: lzo-rle
+
+# Combine default values with user defined settings
+systemd_zram_options: "{{ systemd_zram_default_options | combine(item.options | default({})) }}"

@@ -1,0 +1,7 @@
+---
+# Manage systemd unit generator for zram devices
+# https://man.archlinux.org/man/zram-generator.conf.5
+systemd_zram: []
+
+# Remove all existing configuration files when true
+systemd_zram_cleanup: false

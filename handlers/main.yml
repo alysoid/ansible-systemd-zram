@@ -1,0 +1,12 @@
+---
+- name: Reload systemd configuration
+  ansible.builtin.systemd:
+    daemon_reload: true
+    scope: system
+
+- name: Restart systemd zram devices
+  ansible.builtin.service:
+    name: systemd-zram-setup@{{ item.name }}.service
+    state: restarted
+    enabled: true
+  loop: "{{ systemd_zram }}"

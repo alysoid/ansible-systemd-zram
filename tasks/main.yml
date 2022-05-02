@@ -1,0 +1,35 @@
+---
+- name: Create zram-generator.conf.d directory
+  ansible.builtin.file:
+    path: /etc/systemd/zram-generator.conf.d
+    state: directory
+    owner: root
+    mode: "0755"
+
+- name: Check existing configuration files
+  ansible.builtin.find:
+    paths: /etc/systemd/zram-generator.conf.d
+    patterns: "*.conf"
+  when: systemd_zram_cleanup
+  register: existing_config
+
+- name: Remove existing configuration files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ existing_config.files }}"
+  when: systemd_zram_cleanup
+  notify:
+    - Reload systemd configuration
+    - Restart systemd zram devices
+
+- name: Generate configuration files
+  ansible.builtin.template:
+    src: zram-generator.j2
+    dest: "/etc/systemd/zram-generator.conf.d/{{ item.name }}.conf"
+    owner: root
+    mode: "0644"
+  loop: "{{ systemd_zram }}"
+  notify:
+    - Reload systemd configuration
+    - Restart systemd zram devices

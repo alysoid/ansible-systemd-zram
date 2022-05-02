@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  author: Andrea Brandi
+  description: Manage systemd-zram service generator for zram devices (either swap or file system)
+  license: MIT
+
+  min_ansible_version: 2.1
+
+  platforms:
+    - name: ArchLinux
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+
+  galaxy_tags:
+    - system
+    - systemd
+    - swap
+    - zram
+
+dependencies: []

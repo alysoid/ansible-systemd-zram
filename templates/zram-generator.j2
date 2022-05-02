@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+# See zram-generator.conf(5) for details.
+
+[{{ item.name }}]
+{% for key, value in systemd_zram_options.items() %}
+{{ key | replace('_', '-') }}={{ value }}
+{% endfor %}
